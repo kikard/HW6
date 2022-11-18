@@ -1,0 +1,138 @@
+<!-- 
+    HW6 Starter code
+     Modified from: https://codepen.io/cathydutton/pen/GBcvo
+
+     NAME: Kathryn Ikard
+     CLASS: CPSC 332
+     DATE: 11/16/22
+     Desc: HW6 JQuery Stopwatch
+    --> 
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HW6 - JQuery</title>
+    
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script>
+            $( document ).ready(function() {
+                
+                var seconds = 00;
+                var tens = 00;
+                var $appendTens = $("#tens");
+                var $appendSeconds = $("#seconds")
+                var $buttonStart = $("#button-start");
+                var $buttonStop = $("#button-stop");
+                var $buttonReset = $("#button-reset");
+                var interval;
+    
+                // new code 
+                let $timer = $("#timer");
+                $timer.addClass("timer-background");
+                $timer.css("background-color", "rgb(255, 230, 0)"); // 
+    
+                $buttonStart.addClass("btn");
+                $buttonStop.addClass("btn");
+                $buttonReset.addClass("btn");
+                
+    
+                $buttonStart.click(function () {
+                    console.log("start clicked")
+                    clearInterval(interval);
+                    interval = setInterval(startTimer, 10);
+                    $timer.css("background-color", "rgb(66, 146, 66)");
+    
+                    //for animation
+                    interval2 = setInterval(newTimer, 500);
+                    
+                })
+    
+                $buttonStop.click(function () {
+                    console.log("stop clicked")
+                    clearInterval(interval);
+                    if(tens != 00 || seconds != 00){
+                        $timer.css("background-color", "rgb(175, 49, 49)");
+                    }
+                    $timer.css('opacity', '1.0');
+                    clearInterval(interval2);
+                })
+    
+                $buttonReset.click(function () {
+                    clearInterval(interval);
+                    tens = "00";
+                    seconds = "00";
+                    $appendTens.html(tens);
+                    $appendSeconds.html(seconds);
+    
+                    $timer.css("background-color", "rgb(255, 230, 0)");
+                    $timer.css('opacity', '1.0');
+                    clearInterval(interval2)
+                })
+    
+                function startTimer() {
+                    tens++;
+    
+                    if (tens < 9) {
+                        $appendTens.html("0" + tens);
+                    }
+    
+                    if (tens > 9) {
+                        $appendTens.html(tens);
+    
+                    }
+    
+                    if (tens > 99) {
+                        seconds++;
+                        $appendSeconds.html("0" + seconds);
+                        tens = 0;
+                        $appendTens.html("0" + 0);
+                    }
+    
+                    if (seconds > 9) {
+                        $appendSeconds.html(seconds);
+                    }
+                }
+    
+                function newTimer() {
+                    console.log("opacity?");
+                    if(seconds % 2){
+                        $timer.animate({ opacity: '1.0'}); 
+                    }
+                    else{
+                        $timer.animate({ opacity: '0.5'}); // aware pdf says 0.8 but 0.5 is more noticable
+                    }
+                }
+    
+                // styling 
+                $('body').css('background-color', 'rgb(38, 126, 167)')
+                $(".wrapper").css('margin', 'auto').css('backgroundImage', 'url("bobsburg.jpg")').css('width', '1200px').css('height', '620px')
+                $('h1').css('margin', '60px 500px 10px').css('color', 'red').css('text-shadow', '4px 2px rgb(66, 54, 39)')
+    
+    
+                $timer.css('margin', 'auto').css('display', 'fixed').css('margin-top', '210px').css('width', '500px').css('height', '160px').css('border', '5px solid red').css('font-size', '60px')
+                $('#timer > span').css('align-content', 'center')
+                $("#btn-box").css('display', 'flex').css('align-content', 'center').css('margin', '10px 500px 10px')
+                $('button').css('font-size', 'x-large').css('border-radius', '10px').css('background-color', 'rgb(143, 115, 78)').css('color', 'red').css('text-shadow', '2px 2px rgb(66, 54, 39)');
+            })
+        </script>
+    </head>
+    
+    <body>
+        <div class="wrapper">
+            <h1>Stopwatch</h1>
+            <!-- <h2>Vanilla JavaScript Stopwatch</h2> -->
+            <p id="timer">
+                <span id="seconds">00</span>:<span id="tens">00</span>
+            </p>
+            <div id="btn-box">
+                <button id="button-start">Start</button>
+                <button id="button-stop">Stop</button>
+                <button id="button-reset">Reset</button>
+            </div>
+            
+        </div>
+    </body>
+    
+    </html>
